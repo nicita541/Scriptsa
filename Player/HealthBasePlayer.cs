@@ -10,12 +10,12 @@ namespace Assets.Scripts.Player
 {
     public class HealthBasePlayer : HealthBase
     {
-        [SerializeField] private Image healsBar;
+        [SerializeField] private Image imageHealBar;
 
         protected override void DamageYes(float damage)
         {
             base.DamageYes(damage);
-            healsBar.fillAmount = CurrentHealth / stats.MaxHealth;
+            imageHealBar.fillAmount = CurrentHealth / stats.MaxHealth;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Assets.Scripts.Base
 
         [SerializeField] private float baseAttackSpeed = 1f; // обычная скорость атаки
 
-        private void Awake()
+        protected virtual void Awake()
         {
             stats = GetComponent<CharacterStats>();
             animator = GetComponent<Animator>();
@@ -44,13 +44,15 @@ namespace Assets.Scripts.Base
         //вызываю в анимации в момент удара
         public void AttackEvent()
         {
+            if(target == null) return;
+
             foreach (var tar in target)
             {
                 tar.TakeDamage(stats.Damage);
             }
         }
 
-        public void StartAttack(HealthBase[] newTarget)
+        public virtual void StartAttack(HealthBase[] newTarget)
         {
             if (newTarget == null)
             {
@@ -58,20 +60,17 @@ namespace Assets.Scripts.Base
                 return;
             }
 
-            GameManager.Instance.SetState(GameState.InCombat);
-
             target = newTarget;
             cooldown = 0;
             active = true;
         }
 
-        public void StopAttack()
+        public virtual void StopAttack()
         {
-            GameManager.Instance.SetState(GameState.Playing);
             active = false;
             target = null;
         }
 
-        public void SetTarget(HealthBase[] healthBase) { target = healthBase; }
+        public virtual void SetTarget(HealthBase[] healthBase) { target = healthBase; }
     }
 }
